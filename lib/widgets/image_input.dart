@@ -5,7 +5,9 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as syspaths;
 
 class ImageInput extends StatefulWidget {
-  const ImageInput({Key? key}) : super(key: key);
+  final Function onSelectImage;
+
+  ImageInput(this.onSelectImage);
 
   @override
   State<ImageInput> createState() => _ImageInputState();
@@ -29,6 +31,9 @@ class _ImageInputState extends State<ImageInput> {
     final fileName = path
         .basename(imageFile!.path); // mendapatkan nama image berserta extension
     final savedImage = await _storedImage!.copy('${appDir.path}/$fileName');
+
+    widget.onSelectImage(
+        savedImage); // memanggil method dari add_place_screen yang sebagai parent dimana letak method onSelectImage di buat
   }
 
   @override
