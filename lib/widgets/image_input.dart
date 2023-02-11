@@ -27,17 +27,21 @@ class _ImageInputState extends State<ImageInput> {
       return;
     }
 
-    setState(() {
-      _storedImage = File(imageFile.path);
-    });
-    final appDir = await syspaths
-        .getApplicationDocumentsDirectory(); // mendapatkan alamat directory
-    final fileName = path
-        .basename(imageFile.path); // mendapatkan nama image berserta extension
-    final savedImage = await _storedImage!.copy('${appDir.path}/$fileName');
+    if (imageFile != null) {
+      setState(() {
+        _storedImage = File(imageFile.path);
+      });
+      final appDir = await syspaths
+          .getApplicationDocumentsDirectory(); // mendapatkan alamat directory
+      final fileName = path.basename(
+          imageFile.path); // mendapatkan nama image berserta extension
+      final savedImage = await _storedImage!.copy('${appDir.path}/$fileName');
 
-    widget.onSelectImage(
-        savedImage); // memanggil method dari add_place_screen yang sebagai parent dimana letak method onSelectImage di buat
+      widget.onSelectImage(
+          savedImage); // memanggil method dari add_place_screen yang sebagai parent dimana letak method onSelectImage di buat
+    } else {
+      print('no image selected');
+    }
   }
 
   @override
